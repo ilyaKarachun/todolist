@@ -2,6 +2,11 @@
   padding: 30px;
   display: flex;
 }
+.AppTodolist {
+  display: flex;
+  flex-direction: column;
+  margin: 40px;
+}
 
 .App > div {
   margin-right: 50px;
