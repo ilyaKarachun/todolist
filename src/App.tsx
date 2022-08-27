@@ -3,6 +3,9 @@ import './App.css';
 import {TaskType, ToDoList} from "./ToDoList";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
+import {AppBar, Box, Button, Container, Grid, IconButton, Paper, Typography} from "@mui/material";
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -20,7 +23,7 @@ type todolistType = {
 }
 
 type StateTaskType = {
-    [key: string] : Array<TaskType>
+    [key: string]: Array<TaskType>
 }
 
 function App() {
@@ -63,8 +66,8 @@ function App() {
 
     }
 
-    function removeTodolist (todolistId: string) {
-        let filtered =  todolist.filter(t => t.id !== todolistId)
+    function removeTodolist(todolistId: string) {
+        let filtered = todolist.filter(t => t.id !== todolistId)
         if (filtered) {
             setTodolist(filtered)
         }
@@ -117,34 +120,81 @@ function App() {
         })
     }
 
+    const changeTaskTitleStatus = (id: string, value: string, todolistId: string) => {
+        let todolistTasks = task[todolistId];
+        let newTask = todolistTasks.find(t => t.id === id)
+        if (newTask) {
+            newTask.title = value
+            setTask({...task})
+        }
+    }
+
+    const changeTodolistTitleHandler = (title: string, todolistId: string) => {
+        const todolistTasks = todolist.find(t => t.id === todolistId)
+
+        if (todolistTasks) {
+            todolistTasks.title = title
+            setTodolist([...todolist])
+        }
+    }
     return (
         <div className="App">
-           <AddItemForm addItem={AddTodolist} />
-            {todolist.map(t => {
-                let taskForToDoList = task[t.id];
-                if (t.filter === "completed") {
-                    taskForToDoList = task[t.id].filter(t => t.isDone)
-                }
-                if (t.filter === "active") {
-                    taskForToDoList = task[t.id].filter(t => !t.isDone)
-                }
+            <Box sx={{flexGrow: 1}}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            sx={{mr: 2}}
+                        >
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
+                            News
+                        </Typography>
+                        <Button color="inherit">Login</Button>
+                    </Toolbar>
+                </AppBar>
+            </Box>
+            <Container>
+                <Grid container style={ {padding: "10px"} }>
+                    <AddItemForm addItem={AddTodolist}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todolist.map(t => {
+                        let taskForToDoList = task[t.id];
+                        if (t.filter === "completed") {
+                            taskForToDoList = task[t.id].filter(t => t.isDone)
+                        }
+                        if (t.filter === "active") {
+                            taskForToDoList = task[t.id].filter(t => !t.isDone)
+                        }
 
-                return (
-                    <ToDoList
-                        key={t.id}
-                        todolistId={t.id}
-                        title={t.title}
-                        task={taskForToDoList}
-                        removeTasks={removeTasks}
-                        changeFilter={changeFilter}
-                        addTask={addTask}
-                        ChangeIsDone={ChangeIsDone}
-                        filter={t.filter}
-                        removeTodolist={removeTodolist}
-                    />
-                )
-            })}
-
+                        return (
+                            <Grid item>
+                                <Paper elevation={3} style={ {padding: '10px'} }>
+                                    <ToDoList
+                                        key={t.id}
+                                        todolistId={t.id}
+                                        title={t.title}
+                                        task={taskForToDoList}
+                                        removeTasks={removeTasks}
+                                        changeFilter={changeFilter}
+                                        addTask={addTask}
+                                        ChangeIsDone={ChangeIsDone}
+                                        filter={t.filter}
+                                        removeTodolist={removeTodolist}
+                                        changeTaskTitleStatus={changeTaskTitleStatus}
+                                        changeTodolistTitleHandler={changeTodolistTitleHandler}
+                                    />
+                                </Paper>
+                            </Grid>
+                        )
+                    })}
+                </Grid>
+            </Container>
         </div>
 
     );
