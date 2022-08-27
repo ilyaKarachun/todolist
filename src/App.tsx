@@ -152,7 +152,7 @@ function App() {
                             <MenuIcon/>
                         </IconButton>
                         <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                            News
+                            What u gonna do today? Make ur own to-do LIST !!!
                         </Typography>
                         <Button color="inherit">Login</Button>
                     </Toolbar>

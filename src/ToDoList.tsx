@@ -100,7 +100,9 @@ export function ToDoList(props: PropsType) {
 
                         return <div key={t.id} className={t.isDone ? "isDone" : ""}><Checkbox
                                                                                           onChange={onChangeIsDoneHandler}
-                                                                                          checked={t.isDone}/>
+                                                                                          checked={t.isDone}
+                                                                                          color={"success"}
+                        />
                             {/*<span className={"span"}>{t.title}</span>*/}
                             <EditableSpan title={t.title}
                                           onChange={onChangeTitleHandler}/>
