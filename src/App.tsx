@@ -16,13 +16,13 @@ export type FilterValuesType = "all" | "active" | "completed"
 //     {id: 3, title: "C2", isDone: false}
 // ]
 
-type todolistType = {
+export type todolistType = {
     id: string
     title: string
     filter: FilterValuesType
 }
 
-type StateTaskType = {
+export type StateTaskType = {
     [key: string]: Array<TaskType>
 }
 
