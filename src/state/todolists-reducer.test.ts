@@ -1,10 +1,10 @@
 import {v1} from "uuid";
-import {todolistType} from "../App";
+import {FilterValuesType, todolistType} from "../App";
 import {
-    AddTodolistAC,
-    ChangeTodolistFilterAC,
-    ChangeTodolistTitleAC,
-    RemoveTodolistAC,
+    addTodolistAC,
+    changeTodolistFilterAC,
+    changeTodolistTitleAC,
+    removeTodolistAC,
     todolistReducer
 } from "./todolists-reducer";
 
@@ -18,7 +18,7 @@ test("correct todolist should be removed", () => {
         {id: todolistId2, title: "What to buy", filter: "all"}
     ]
 
-    const endState = todolistReducer(startState, RemoveTodolistAC(todolistId1))
+    const endState = todolistReducer(startState, removeTodolistAC(todolistId1))
 
     expect(endState.length).toBe(1)
     expect(endState[0].id).toBe(todolistId2)
@@ -35,7 +35,7 @@ test("correct todolist should be added", () => {
         {id: todolistId2, title: "What to buy", filter: "all"}
     ]
 
-    const endState = todolistReducer(startState, AddTodolistAC(newTodolistTitle))
+    const endState = todolistReducer(startState, addTodolistAC(newTodolistTitle))
 
     expect(endState.length).toBe(3)
     expect(endState[2].title).toBe(newTodolistTitle)
@@ -59,7 +59,7 @@ test("correct todolist should change it's name", () => {
     }
 
 
-    const endState = todolistReducer(startState, ChangeTodolistTitleAC(todolistId2, newTodolistTitle))
+    const endState = todolistReducer(startState, changeTodolistTitleAC(todolistId2, newTodolistTitle))
 
     expect(endState.length).toBe(2)
     expect(endState[1].title).toBe(newTodolistTitle)
@@ -69,7 +69,7 @@ test("correct todolist should change it's name", () => {
 test("correct filter should be changes", () => {
     let todolistId1 = v1()
     let todolistId2 = v1()
-    let newFilter = "New Todolist"
+    let newFilter: FilterValuesType = "active"
     const startState: todolistType[] =[
         {id: todolistId1, title: "What to learn", filter: "all"},
         {id: todolistId2, title: "What to buy", filter: "all"}
@@ -82,7 +82,7 @@ test("correct filter should be changes", () => {
     // }
 
 
-    const endState = todolistReducer(startState, ChangeTodolistFilterAC(todolistId2, newFilter))
+    const endState = todolistReducer(startState, changeTodolistFilterAC(todolistId2, newFilter))
 
     expect(endState.length).toBe(2)
     expect(endState[1].title).toBe("What to buy")
